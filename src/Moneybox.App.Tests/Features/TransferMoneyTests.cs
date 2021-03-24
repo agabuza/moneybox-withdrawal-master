@@ -11,6 +11,8 @@ namespace Moneybox.App.Tests.Features
     {
         private Mock<INotificationService> notificationService;
         private Mock<IAccountRepository> accountRepository;
+        private User sourceUser;
+        private User targetUser;
         private Guid sourceAccountGuid;
         private Account sourceAccount;
         private Guid targetAccountGuid;
@@ -19,11 +21,15 @@ namespace Moneybox.App.Tests.Features
         [SetUp]
         public void Setup()
         {
+            sourceUser = new User(Guid.NewGuid(), "Source Name", "source.email@address.com");
+            targetUser = new User(Guid.NewGuid(), "Target Name", "target.email@address.com");
+
             sourceAccountGuid = Guid.NewGuid();
-            sourceAccount = new Account(sourceAccountGuid, null, 1000, 100, 100);
+            sourceAccount = new Account(sourceAccountGuid, sourceUser, 1000, 100, 100);
 
             targetAccountGuid = Guid.NewGuid();
-            targetAccount = new Account(targetAccountGuid, null, 1000, 100, 100);
+            targetAccount = new Account(targetAccountGuid, targetUser, 3000, 100, 3000);
+
 
             notificationService = new Mock<INotificationService>();
             accountRepository = new Mock<IAccountRepository>();
@@ -55,8 +61,8 @@ namespace Moneybox.App.Tests.Features
             var transferMoneyFeature = new TransferMoney(accountRepository.Object, notificationService.Object);
             transferMoneyFeature.Execute(sourceAccountGuid, targetAccountGuid, 100);
 
-            Assert.That(targetAccount.Balance, Is.EqualTo(1100));
-            Assert.That(targetAccount.PaidIn, Is.EqualTo(200));
+            Assert.That(targetAccount.Balance, Is.EqualTo(3100));
+            Assert.That(targetAccount.PaidIn, Is.EqualTo(3100));
         }
 
         [Test]
@@ -68,6 +74,26 @@ namespace Moneybox.App.Tests.Features
             var exception = Assert.Throws<InvalidOperationException>(() => withdrawMoney.Execute(sourceAccountGuid, 4001m));
             accountRepository.Verify(x => x.Update(sourceAccount), Times.Never);
             accountRepository.Verify(x => x.Update(targetAccount), Times.Never);
+        }
+
+        [Test]
+        public void Execute_NotifiesUser_When_FundsAreLow()
+        {
+            // Act
+            var transferMoneyFeature = new TransferMoney(accountRepository.Object, notificationService.Object);
+            transferMoneyFeature.Execute(sourceAccountGuid, targetAccountGuid, 600);
+
+            notificationService.Verify(x => x.NotifyFundsLow(sourceUser.Email), Times.Exactly(1));
+        }
+
+        [Test]
+        public void Execute_NotifiesUser_When_ApproachingPayInLimit()
+        {
+            // Act
+            var transferMoneyFeature = new TransferMoney(accountRepository.Object, notificationService.Object);
+            transferMoneyFeature.Execute(sourceAccountGuid, targetAccountGuid, 600);
+
+            notificationService.Verify(x => x.NotifyApproachingPayInLimit(targetUser.Email), Times.Exactly(1));
         }
     }
 }
