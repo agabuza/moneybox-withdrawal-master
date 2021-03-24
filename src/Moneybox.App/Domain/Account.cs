@@ -18,7 +18,6 @@ namespace Moneybox.App
             Balance = balance;
             Withdrawn = withdrawn;
             PaidIn = paidIn;
-
         }
 
         public Guid Id { get; private set; }
@@ -53,6 +52,16 @@ namespace Moneybox.App
 
             Balance += amount;
             PaidIn += amount;
+        }
+
+        public bool HasLowFunds()
+        {
+            return Balance < 500m;
+        }
+
+        public bool HasApproachingPayInLimit()
+        {
+            return Account.PayInLimit - PaidIn < 500m;
         }
     }
 }
