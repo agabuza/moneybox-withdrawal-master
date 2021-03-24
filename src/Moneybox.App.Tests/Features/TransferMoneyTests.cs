@@ -38,7 +38,7 @@ namespace Moneybox.App.Tests.Features
         }
 
         [Test]
-        public void Whether_Execute_UpdatesSourceAccount_OnSuccess()
+        public void Execute_UpdatesSourceAccount_When_Success()
         {
             // Act
             var transferMoneyFeature = new TransferMoney(accountRepository.Object, notificationService.Object);
@@ -49,7 +49,7 @@ namespace Moneybox.App.Tests.Features
         }
         
         [Test]
-        public void Whether_Execute_UpdatesTargetAccount_OnSuccess()
+        public void Execute_UpdatesTargetAccount_When_Success()
         {
             // Act
             var transferMoneyFeature = new TransferMoney(accountRepository.Object, notificationService.Object);

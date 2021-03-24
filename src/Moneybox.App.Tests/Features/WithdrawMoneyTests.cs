@@ -10,7 +10,7 @@ namespace Moneybox.App.Tests.Features
     public class WithdrawMoneyTests
     {   
         [Test]
-        public void Whether_Execute_UpdatesAccount_OnSufficientFunds()
+        public void Execute_UpdatesAccount_When_SufficientFunds()
         {
             var accountguid = Guid.NewGuid();
             var account = new Account(accountguid, null, 1000, 100, 0);

@@ -33,12 +33,23 @@ namespace Moneybox.App
 
         public void Withdraw(decimal amount)
         {
+            var fromBalance = Balance - amount;
+            if (fromBalance < 0m)
+            {
+                throw new InvalidOperationException("Insufficient funds to make transfer");
+            }
+
             Withdrawn -= amount;
             Balance -= amount;
         }
 
         public void Transfer(decimal amount)
         {
+            var paidIn = PaidIn + amount;
+            if (paidIn > PayInLimit)
+            {
+                throw new InvalidOperationException("Account pay in limit reached");
+            }
 
             Balance += amount;
             PaidIn += amount;
