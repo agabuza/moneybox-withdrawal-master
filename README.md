@@ -26,5 +26,5 @@ Once you have completed test, zip up your solution, excluding any build artifact
 Good luck!
 
 
-NOTE: Anatolii Gabuza
-I've spent more than 1h on the task. Notification tests, User domain model refactoging and some cleanups were beyond 60 mins mark.  
+NOTE: Anatolii Gabuza.
+I've spent more than 1h on the task. Notification tests, User domain model refactoring and minor code cleanups were beyond 60 mins mark.  
