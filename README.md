@@ -24,3 +24,7 @@ As part of this process however, you should look to refactor some of the code in
 Once you have completed test, zip up your solution, excluding any build artifacts to reduce the size, and email it back to our recruitment team.
 
 Good luck!
+
+
+NOTE: Anatolii Gabuza
+I've spent more than 1h on the task. Notification tests, User domain model refactoging and some cleanups were beyond 60 mins mark.  
