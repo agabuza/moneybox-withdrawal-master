@@ -27,7 +27,6 @@ namespace Moneybox.App.Tests.Features
         [Test]
         public void Execute_UpdatesWithdrawnAndBalance_When_SufficientFunds()
         {
-            // Act
             var withdrawMoney = new WithdrawMoney(accountRepository.Object, notificationService.Object);
             withdrawMoney.Execute(accountguid, 100);
 
@@ -38,7 +37,6 @@ namespace Moneybox.App.Tests.Features
         [Test]
         public void Execute_UpdatesAccountInRepo_When_SufficientFunds()
         {
-            // Act
             var withdrawMoney = new WithdrawMoney(accountRepository.Object, notificationService.Object);
             withdrawMoney.Execute(accountguid, 100);
 
@@ -48,7 +46,6 @@ namespace Moneybox.App.Tests.Features
         [Test]
         public void Execute_DoesNotUpdateAccountInRepo_When_InsufficientFunds()
         {
-            // Act
             var withdrawMoney = new WithdrawMoney(accountRepository.Object, notificationService.Object);
             
             var exception = Assert.Throws<InvalidOperationException>(() => withdrawMoney.Execute(accountguid, 4001m));

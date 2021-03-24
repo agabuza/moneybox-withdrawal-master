@@ -46,8 +46,8 @@ namespace Moneybox.App.Tests.Features
         [Test]
         public void Execute_UpdatesSourceAccount_When_Success()
         {
-            // Act
             var transferMoneyFeature = new TransferMoney(accountRepository.Object, notificationService.Object);
+            
             transferMoneyFeature.Execute(sourceAccountGuid, targetAccountGuid, 100);
 
             Assert.That(sourceAccount.Withdrawn, Is.EqualTo(0));
@@ -57,8 +57,8 @@ namespace Moneybox.App.Tests.Features
         [Test]
         public void Execute_UpdatesTargetAccount_When_Success()
         {
-            // Act
             var transferMoneyFeature = new TransferMoney(accountRepository.Object, notificationService.Object);
+            
             transferMoneyFeature.Execute(sourceAccountGuid, targetAccountGuid, 100);
 
             Assert.That(targetAccount.Balance, Is.EqualTo(3100));
@@ -68,7 +68,6 @@ namespace Moneybox.App.Tests.Features
         [Test]
         public void Execute_DoesNotUpdateAccountsInRepo_When_InsufficientFunds()
         {
-            // Act
             var withdrawMoney = new WithdrawMoney(accountRepository.Object, notificationService.Object);
 
             var exception = Assert.Throws<InvalidOperationException>(() => withdrawMoney.Execute(sourceAccountGuid, 4001m));
@@ -79,7 +78,6 @@ namespace Moneybox.App.Tests.Features
         [Test]
         public void Execute_NotifiesUser_When_FundsAreLow()
         {
-            // Act
             var transferMoneyFeature = new TransferMoney(accountRepository.Object, notificationService.Object);
             transferMoneyFeature.Execute(sourceAccountGuid, targetAccountGuid, 600);
 
@@ -89,7 +87,6 @@ namespace Moneybox.App.Tests.Features
         [Test]
         public void Execute_NotifiesUser_When_ApproachingPayInLimit()
         {
-            // Act
             var transferMoneyFeature = new TransferMoney(accountRepository.Object, notificationService.Object);
             transferMoneyFeature.Execute(sourceAccountGuid, targetAccountGuid, 600);
 
